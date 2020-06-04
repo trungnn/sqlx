@@ -112,9 +112,11 @@ func asSliceForIn(i interface{}) (v reflect.Value, ok bool) {
 	}
 
 	// []byte is a driver.Value type so it should not be expanded
-	if t == reflect.TypeOf([]byte{}) {
+	// we are doing the same checks as found in database/sql/driver
+	// this is to avoid expanding defined types of []byte, for example:
+	// type UUID []byte
+	if v.Type().Elem().Kind() == reflect.Uint8 {
 		return reflect.Value{}, false
-
 	}
 
 	return v, true

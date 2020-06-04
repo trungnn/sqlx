@@ -1501,6 +1501,7 @@ func TestIn(t *testing.T) {
 		args []interface{}
 		c    int
 	}
+	type mybyte []byte
 	tests := []tr{
 		{"SELECT * FROM foo WHERE x = ? AND v in (?) AND y = ?",
 			[]interface{}{"foo", []int{0, 5, 7, 2, 9}, "bar"},
@@ -1510,6 +1511,9 @@ func TestIn(t *testing.T) {
 			8},
 		{"SELECT * FROM foo WHERE x = ? AND y in (?)",
 			[]interface{}{[]byte("foo"), []int{0, 5, 3}},
+			4},
+		{"SELECT * FROM foo WHERE x = ? AND y in (?)",
+			[]interface{}{mybyte("foo"), []int{0, 5, 3}},
 			4},
 		{"SELECT * FROM foo WHERE x = ? AND y IN (?)",
 			[]interface{}{sql.NullString{Valid: false}, []string{"a", "b"}},
